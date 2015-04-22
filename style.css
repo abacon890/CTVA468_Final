@@ -38,3 +38,7 @@
 				-ms-filter: fliph;
 				filter: fliph;
 			}
+			.gameObject{
+				position: absolute;
+				z-index: 1;
+			}
