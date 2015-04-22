@@ -25,6 +25,8 @@
 			var bgDirection;
 			var ggDirection;
 			var pgDirection;
+			var gameWindowH = 600;
+			var gameWindowW = 800;
 
 			const PACMAN_SPEED = 10;
 			const GHOST_SPEED = 5;
@@ -52,7 +54,11 @@
 
 
 				ghost = document.getElementById('whiteGhost');
-				ghost.className = 'ghost';
+				
+				ghost.style.left = '280px';
+				ghost.style.top = '240px';
+				ghost.style.width = '40px';
+				ghost.style.height = '40px';
 
 				
 				
@@ -85,22 +91,22 @@
 				
 				if(upArrowDown){
 					var pacmanY = parseInt(pacman.style.top) - PACMAN_SPEED;
-					if(pacmanY < -30) pacmanY = 390;
+					if(pacmanY < -30) pacmanY = gameWindowH - 10;
 					pacman.style.top = pacmanY + 'px';
 				}
 				if(downArrowDown){
 					var pacmanY = parseInt(pacman.style.top) + PACMAN_SPEED;
-					if(pacmanY > 390) pacmanY = -30;
+					if(pacmanY > gameWindowH - 10) pacmanY = -30;
 					pacman.style.top = pacmanY + 'px';
 				}
 				if(leftArrowDown){
 					var pacmanX = parseInt(pacman.style.left) - PACMAN_SPEED;
-					if(pacmanX < -30) pacmanX = 590;
+					if(pacmanX < -30) pacmanX = gameWindowW - 10;
 					pacman.style.left = pacmanX + 'px';
 				}
 				if(rightArrowDown){
 					var pacmanX = parseInt(pacman.style.left) + PACMAN_SPEED;
-					if(pacmanX > 590) pacmanX = -30;
+					if(pacmanX > gameWindowW - 10) pacmanX = -30;
 					pacman.style.left = pacmanX + 'px';
 				}
 				if(hitWall(pacman) ){
@@ -111,26 +117,46 @@
 				var b = bullets.children;
 				for(var i=0; i<b.length; i++){
 					
-						var newX = parseInt(b[i].style.left) - b[i].hSpeed;
-						var newY = parseInt(b[i].style.top) - b[i].vSpeed;
+					var newX = parseInt(b[i].style.left) - b[i].hSpeed;
+					var newY = parseInt(b[i].style.top) - b[i].vSpeed;
 					
-					if( newY < 0 ) bullets.removeChild(b[i]);
-					else{ 
-							b[i].style.top = newY + 'px';
-						// for(var j=0; j<enemies.length; j++){
-					// 		if( hittest(b[i], enemies[j]) ){
-// 								document.getElementById('sndExp').currentTime = 0;
-// 								document.getElementById('sndExp').play();
-// 								bullets.removeChild(b[i]);
-// 								explode(enemies[j]);
-// 								placeEnemyShip(enemies[j]);
-// 							}
-// 						} 
-						// output.innerHTML = autofireCount;
+					if(b[i].vSpeed > 0){
+						// BULLET MOVING UP
+						if( newY > gameWindowH ) bullets.removeChild(b[i]);
+						else{ 
+								b[i].style.top = newY + 'px';
+						}						
 					}
-					if( newX < 0 ) bullets.removeChild(b[i]);
-					else{ 
+					else if(b[i].vSpeed < 0){
+						// BULLET MOVING DOWN
+						if( newY < 0 ) bullets.removeChild(b[i]);
+						else{ 
+								b[i].style.top = newY + 'px';
+							// for(var j=0; j<enemies.length; j++){
+						// 		if( hittest(b[i], enemies[j]) ){
+	// 								document.getElementById('sndExp').currentTime = 0;
+	// 								document.getElementById('sndExp').play();
+	// 								bullets.removeChild(b[i]);
+	// 								explode(enemies[j]);
+	// 								placeEnemyShip(enemies[j]);
+	// 							}
+	// 						} 
+							// output.innerHTML = autofireCount;
+						}
+					}
+					else if(b[i].hSpeed < 0){
+						// BULLET MOVING LEFT
+						if( newX < 0 ) bullets.removeChild(b[i]);
+						else{ 
+								b[i].style.left = newX + 'px';
+						}
+					}
+					else if(b[i].hSpeed > 0){
+						// BULLET MOVING RIGHT
+						if( newX > gameWindowW ) bullets.removeChild(b[i]);
+						else{
 							b[i].style.left = newX + 'px';
+						}
 					}
 				}
 				
