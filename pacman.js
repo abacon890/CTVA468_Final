@@ -51,6 +51,9 @@
 				gameWindow.appendChild(bullets);
 
 
+				ghost = document.getElementById('whiteGhost');
+				ghost.className = 'ghost';
+
 				
 				
 			}
@@ -211,28 +214,28 @@
 					bullet.style.backgroundColor = 'black';
 					bullet.style.width = bulletWidth + 'px';
 					bullet.style.height = bulletHeight + 'px';
-					bullet.speed = 20;
+					bullet.speed = 1;
 					// bullet.style.top = parseInt(pacman.style.top) - bulletHeight + 'px';
 					if(direction == 'left'){
-						bullet.hSpeed = 5;
+						bullet.hSpeed = PACMAN_SPEED + bullet.speed;
 						bullet.vSpeed = 0;
 						bullet.style.height = '4px';
 						bullet.style.width = '10px';
 					}
 					if(direction == 'right'){
-						bullet.hSpeed = -5;
+						bullet.hSpeed = (PACMAN_SPEED*-1) -bullet.speed;
 						bullet.vSpeed = 0;
 						bullet.style.height = '4px';
 						bullet.style.width = '10px';
 					}
 					if(direction == 'up'){
 						bullet.hSpeed = 0;
-						bullet.vSpeed = 5;
+						bullet.vSpeed = PACMAN_SPEED + bullet.speed;
 						
 					}
 					if(direction == 'down'){
 						bullet.hSpeed = 0;
-						bullet.vSpeed = -5;
+						bullet.vSpeed = (PACMAN_SPEED*-1) -bullet.speed;
 						
 					}
 					var pacmanX = parseInt(pacman.style.left) + parseInt(pacman.style.width)/2;
