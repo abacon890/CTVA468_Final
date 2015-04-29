@@ -61,7 +61,16 @@
 				ghost.style.height = '40px';
 
 				
-				
+				// top wall 
+				createWall(-20, 0, 640, 40);
+				// left side walls
+				createWall(0, 0, 40, 160);
+				createWall(0, 200, 40, 200);
+				// right side walls
+				createWall(560, 0, 40, 160);
+				createWall(560, 200, 40, 200);
+				// top wall
+				createWall(-20, 360, 640, 40);
 			}
 
 			function createWall(left, top, width, height){
