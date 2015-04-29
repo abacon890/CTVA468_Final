@@ -282,6 +282,6 @@ function fire(){
 		
 		bullets.appendChild(bullet);
 	}
-	
+}	
 
 	
