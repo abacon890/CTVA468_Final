@@ -6,12 +6,14 @@
 				overflow: hidden;
 				margin: 0 auto;
 				color: red;
+				border: 1pt black solid;
 
 			}
-
-			#pacman{
+			#pacman, #redGhost, #blueGhost, #pinkGhost, #greenGhost{
 				position: absolute;
+				z-index: 20;
 			}
+
 
 			.rotate90{
 				transform:rotate(90deg);
@@ -44,10 +46,10 @@
 			}
 			.walls{
 
-	position: absolute;
-	background-color: #666666;
-	-webkit-border-radius: 8px;
-	-moz-border-radius: 8px;
-	border-radius: 8px;
+				position: absolute;
+				background-color: #666666;
+				-webkit-border-radius: 8px;
+				-moz-border-radius: 8px;
+				border-radius: 8px;
 
 			}
