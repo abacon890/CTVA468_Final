@@ -38,18 +38,14 @@
 	-ms-filter: fliph;
 	filter: fliph;
 }
-
 .gameObject{
 	position: absolute;
 	z-index: 1;
 }
-
 .wall{
 	position: absolute;
 	background-color: #666666;
 	-webkit-border-radius: 8px;
 	-moz-border-radius: 8px;
 	border-radius: 8px;
-
 }
-
