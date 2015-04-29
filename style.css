@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 	#gameWindow{
 				position: relative;
 				width: 600px;
@@ -15,6 +16,24 @@
 			}
 
 
+=======
+#gameWindow{
+	position: relative;
+	width: 600px;
+	height: 400px;
+	background-color: #FFFFFF;
+	overflow: hidden;
+	margin: 0 auto;
+	color: red;
+
+}
+
+#pacman{
+	position: absolute;
+}
+
+<<<<<<< HEAD
+>>>>>>> Stashed changes
 			.rotate90{
 				transform:rotate(90deg);
 				behavior: url(-ms-transform.htc);
@@ -46,6 +65,7 @@
 			}
 			.walls{
 
+<<<<<<< Updated upstream
 				position: absolute;
 				background-color: #666666;
 				-webkit-border-radius: 8px;
@@ -53,3 +73,48 @@
 				border-radius: 8px;
 
 			}
+=======
+=======
+.rotate90{
+	transform:rotate(90deg);
+	behavior: url(-ms-transform.htc);
+	-moz-transform:rotate(90deg);
+	-webkit-transform:rotate(90deg);
+	-o-transform:rotate(90deg);
+	-ms-transform:rotate(90deg);
+}
+.rotate270{
+	transform:rotate(270deg);
+	behavior: url(-ms-transform.htc);
+	-moz-transform:rotate(270deg);
+	-webkit-transform:rotate(270deg);
+	-o-transform:rotate(270deg);
+	-ms-transform:rotate(270deg);
+}
+.flip-horizontal{
+	-moz-transform: scaleX(-1);
+	-webkit-transform: scaleX(-1);
+	-o-transform: scaleX(-1);
+	-ms-transform: scaleX(-1);
+	transform: scaleX(-1);
+	-ms-filter: fliph;
+	filter: fliph;
+}
+.gameObject{
+	position: absolute;
+	z-index: 1;
+}
+.wall{
+>>>>>>> Walls
+	position: absolute;
+	background-color: #666666;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+<<<<<<< HEAD
+
+			}
+=======
+}
+>>>>>>> Walls
+>>>>>>> Stashed changes
