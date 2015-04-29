@@ -3,6 +3,10 @@ var output;
 var pacman;
 var loopTimer;
 var numLoops = 0;
+var bullets;
+
+var hSpeed;
+var vSpeed;
 
 var upArrowDown = false;
 var downArrowDown = false;
@@ -21,6 +25,8 @@ var rgDirection; // Red Ghost Direction
 var bgDirection;
 var ggDirection;
 var pgDirection;
+var gameWindowH = 400;
+var gameWindowW = 600;
 
 const PACMAN_SPEED = 10;
 const GHOST_SPEED = 5;
@@ -33,16 +39,32 @@ function init(){
 	pacman.style.top = '240px';
 	pacman.style.width = '40px';
 	pacman.style.height = '40px';
-
 	
 	loopTimer = setInterval(loop, 50);
+	
+	bullets = document.createElement('DIV');
+	bullets.className = 'gameObject';
+	bullets.style.width = gameWindow.style.width;
+	bullets.style.height = gameWindow.style.height;
+	bullets.style.left = '0px';
+	bullets.style.top = '0px';
+	gameWindow.appendChild(bullets);
 
 	
-	
-
-
-	
-	
+	createWall(240, 200, 120, 40);
+	createWall(240, 280, 120, 40);
+	createWall(80, 160, 40, 160);
+	createWall(480, 160, 40, 160);
+	createWall(160, 240, 40, 160);
+	createWall(160, 0, 40, 120);
+	createWall(400, 240, 40, 160);
+	createWall(400, 0, 40, 120);
+	createWall(80, 80, 40, 40);
+	createWall(480, 80, 40, 40);
+	createWall(160, 160, 40, 40);
+	createWall(400, 160, 40, 40);
+	createWall(240, 80, 40, 80);
+	createWall(320, 80, 40, 80);
 }
 
 function createWall(left, top, width, height){
@@ -62,6 +84,15 @@ function createWall(left, top, width, height){
 	// output.innerHTML = walls.length;
 
 }
+	wall.style.left = left + 'px';
+	wall.style.top = top + 'px';
+	wall.style.width = width + 'px';
+	wall.style.height = height + 'px';
+	gameWindow.appendChild(wall);
+
+	walls.push(wall);
+}
+
 function loop(){
 	// output.innerHTML = direction;
 	numLoops++;
@@ -88,6 +119,27 @@ function loop(){
 	if(direction=='right'){
 		var pacmanX = parseInt(pacman.style.left) + PACMAN_SPEED;
 		if(pacmanX > 590) pacmanX = -30;
+
+
+	
+	if(upArrowDown){
+		var pacmanY = parseInt(pacman.style.top) - PACMAN_SPEED;
+		if(pacmanY < -30) pacmanY = gameWindowH - 10;
+		pacman.style.top = pacmanY + 'px';
+	}
+	if(downArrowDown){
+		var pacmanY = parseInt(pacman.style.top) + PACMAN_SPEED;
+		if(pacmanY > gameWindowH - 10) pacmanY = -30;
+		pacman.style.top = pacmanY + 'px';
+	}
+	if(leftArrowDown){
+		var pacmanX = parseInt(pacman.style.left) - PACMAN_SPEED;
+		if(pacmanX < -30) pacmanX = gameWindowW - 10;
+		pacman.style.left = pacmanX + 'px';
+	}
+	if(rightArrowDown){
+		var pacmanX = parseInt(pacman.style.left) + PACMAN_SPEED;
+		if(pacmanX > gameWindowW - 10) pacmanX = -30;
 		pacman.style.left = pacmanX + 'px';
 	}
 	if(hitWall(pacman) ){
@@ -97,6 +149,57 @@ function loop(){
 
 	
 	
+	var b = bullets.children;
+	for(var i=0; i<b.length; i++){
+		
+		var newX = parseInt(b[i].style.left) - b[i].hSpeed;
+		var newY = parseInt(b[i].style.top) - b[i].vSpeed;
+		
+		if(b[i].vSpeed > 0){
+			// BULLET MOVING UP
+			if( newY > gameWindowH ) bullets.removeChild(b[i]);
+			else{ 
+				b[i].style.top = newY + 'px';
+				if(hitWall(b[i]) ){
+					bullets.removeChild(b[i]);
+				}
+			}						
+		}
+		else if(b[i].vSpeed < 0){
+			// BULLET MOVING DOWN
+			if( newY < 0 ) bullets.removeChild(b[i]);
+			else{ 
+				b[i].style.top = newY + 'px';
+				if(hitWall(b[i]) ){
+					bullets.removeChild(b[i]);
+				}
+			}	
+		}	
+			
+		
+		else if(b[i].hSpeed < 0){
+			// BULLET MOVING LEFT
+			if( newX < 0 ) bullets.removeChild(b[i]);
+			else{ 
+				b[i].style.left = newX + 'px';
+					if(hitWall(b[i]) ){
+					bullets.removeChild(b[i]);
+				}	
+			}
+		}
+		else if(b[i].hSpeed > 0){
+			// BULLET MOVING RIGHT
+			if( newX > gameWindowW ) bullets.removeChild(b[i]);
+			else{
+				b[i].style.left = newX + 'px';
+			
+				if(hitWall(b[i]) ){
+					bullets.removeChild(b[i]);
+				}
+				
+			}
+		}
+	}	
 }
 
 
@@ -112,6 +215,10 @@ document.addEventListener('keyup', function(event){
 	if(event.keyCode==38) upArrowDown = false;
 	if(event.keyCode==39) rightArrowDown = false;
 	if(event.keyCode==40) downArrowDown = false;
+});
+document.addEventListener('keypress', function(event){
+	// if(event.keyCode==32) fire();
+	if(event.charCode==32) fire();
 });
 
 function hitWall(element){
@@ -130,6 +237,7 @@ var originalTop = pacman.style.top;
 		pacman.style.left = parseInt(pacman.style.left) - PACMAN_SPEED + 'px';
 		if( ! hitWall(pacman) ){ 
 			// leftArrowDown = true;
+			leftArrowDown = true;
 			direction = 'left';
 			pacman.className = "flip-horizontal";
 		}
@@ -138,6 +246,7 @@ var originalTop = pacman.style.top;
 		pacman.style.top = parseInt(pacman.style.top) - PACMAN_SPEED + 'px';
 		if( ! hitWall(pacman) ){ 
 			// upArrowDown = true;
+		 upArrowDown = true;
 			direction = 'up';
 			pacman.className = "rotate270";
 		}
@@ -146,6 +255,8 @@ var originalTop = pacman.style.top;
 		pacman.style.left = parseInt(pacman.style.left) + PACMAN_SPEED + 'px';
 		if( ! hitWall(pacman) ){ 
 			// rightArrowDown = true;
+			 if( ! hitWall(pacman) ){ 
+			 rightArrowDown = true;
 			direction = 'right';
 			pacman.className = "";
 		}
@@ -156,9 +267,61 @@ var originalTop = pacman.style.top;
 			// downArrowDown = true;
 			direction = 'down';
 			pacman.className = "rotate90";
+			downArrowDown = true;
+			direction = 'down';
+			pacman.className = "rotate90";
+			
 		}
 	}
 
 	pacman.style.left = originalLeft;
 	pacman.style.top = originalTop;
 }
+
+function fire(){
+		// document.getElementById('sndShoot').currentTime = 0;
+// 					sndShoot = document.getElementById('sndShoot');
+// 					sndShoot.volume = 0.5;
+// 					sndShoot.play();
+
+		var bulletWidth = 4;
+		var bulletHeight = 10;
+		var bullet = document.createElement('DIV');
+		bullet.className = 'gameObject';
+		bullet.style.backgroundColor = 'black';
+		bullet.style.width = bulletWidth + 'px';
+		bullet.style.height = bulletHeight + 'px';
+		bullet.speed = 1;
+		// bullet.style.top = parseInt(pacman.style.top) - bulletHeight + 'px';
+		if(direction == 'left'){
+			bullet.hSpeed = PACMAN_SPEED + bullet.speed;
+			bullet.vSpeed = 0;
+			bullet.style.height = '4px';
+			bullet.style.width = '10px';
+		}
+		if(direction == 'right'){
+			bullet.hSpeed = (PACMAN_SPEED*-1) -bullet.speed;
+			bullet.vSpeed = 0;
+			bullet.style.height = '4px';
+			bullet.style.width = '10px';
+		}
+		if(direction == 'up'){
+			bullet.hSpeed = 0;
+			bullet.vSpeed = PACMAN_SPEED + bullet.speed;
+			
+		}
+		if(direction == 'down'){
+			bullet.hSpeed = 0;
+			bullet.vSpeed = (PACMAN_SPEED*-1) -bullet.speed;
+			
+		}
+		var pacmanX = parseInt(pacman.style.left) + parseInt(pacman.style.width)/2;
+		bullet.style.left = (pacmanX - bulletWidth/2) + 'px';
+		var pacmanY = parseInt(pacman.style.top) + parseInt(pacman.style.height)/2;
+		bullet.style.top = (pacmanY - bulletWidth/2) + 'px';
+		
+		bullets.appendChild(bullet);
+	}
+	
+
+	
