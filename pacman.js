@@ -62,9 +62,9 @@ function init(){
 	gameWindow.appendChild(bullets);
 
 	ghosts[0] = document.getElementById('redGhost');
-	ghosts[1] = document.getElementById('blueGhost');
-	ghosts[2] = document.getElementById('greenGhost');
-	ghosts[3] = document.getElementById('pinkGhost');
+	// ghosts[1] = document.getElementById('blueGhost');
+	// ghosts[2] = document.getElementById('greenGhost');
+	// ghosts[3] = document.getElementById('pinkGhost');
 	
 	for(var i=0; i<ghosts.length; i++){
 		ghosts[i].style.top = '40px';
@@ -75,20 +75,20 @@ function init(){
 	}
 
 	
-	createWall(240, 200, 120, 40);
-	createWall(240, 280, 120, 40);
-	createWall(80, 160, 40, 160);
-	createWall(480, 160, 40, 160);
-	createWall(160, 240, 40, 160);
-	createWall(160, 0, 40, 120);
-	createWall(400, 240, 40, 160);
-	createWall(400, 0, 40, 120);
-	createWall(80, 80, 40, 40);
-	createWall(480, 80, 40, 40);
-	createWall(160, 160, 40, 40);
-	createWall(400, 160, 40, 40);
-	createWall(240, 80, 40, 80);
-	createWall(320, 80, 40, 80);
+	// createWall(240, 200, 120, 40);
+	// createWall(240, 280, 120, 40);
+	// createWall(80, 160, 40, 160);
+	// createWall(480, 160, 40, 160);
+	// createWall(160, 240, 40, 160);
+	// createWall(160, 0, 40, 120);
+	// createWall(400, 240, 40, 160);
+	// createWall(400, 0, 40, 120);
+	// createWall(80, 80, 40, 40);
+	// createWall(480, 80, 40, 40);
+	// createWall(160, 160, 40, 40);
+	// createWall(400, 160, 40, 40);
+	// createWall(240, 80, 40, 80);
+	// createWall(320, 80, 40, 80);
 }
 
 function createWall(left, top, width, height){
@@ -232,22 +232,25 @@ function hitWall(element){
 
 
 function moveGhosts(){
-				for(var i=0; i<ghosts.length; i++){
+	for(var i=0; i<ghosts.length; i++){
 	
-				var gX = parseInt(ghosts[i].style.left);
-				var gY = parseInt(ghosts[i].style.top);
-	
-				
-	
-		if(ghosts[i].id=='pinkGhost'){
-			var pacX = parseInt(pacman.style.left);
-			var pacY = parseInt(pacman.style.top);
+	var gX = parseInt(ghosts[i].style.left);
+	var gY = parseInt(ghosts[i].style.top);
+
+	var pacX = parseInt(pacman.style.left);
+	var pacY = parseInt(pacman.style.top);
 			
-			var goodChoices = new Array();
-			var badChoices = new Array();
-		
+	var goodChoices = new Array();
+	var badChoices = new Array();
+
+	var pinkGhost = ghosts[i];	
+	var redGhost = ghosts[i];	
+	var blueGhost = ghosts[i];	
+	var greenGhost = ghosts[i];	
+
+		if(ghosts[i].id=='pinkGhost'){
 			var pgDirection = gDirections[i];
-			var pinkGhost = ghosts[i];
+			
 			
 			// Check right
 			if(pgDirection != 'left'){
@@ -284,6 +287,75 @@ function moveGhosts(){
 					else badChoices.push('down');
 				}
 				pinkGhost.style.top = gY + 'px';
+			}
+			
+			if(goodChoices.length>0){
+				var r = Math.floor(Math.random()*goodChoices.length)
+				gNewDirection = goodChoices[r];
+			}
+			else{
+				var r = Math.floor(Math.random()*badChoices.length)
+				gNewDirection = badChoices[r];
+			}
+			
+			if(gNewDirection == 'right'){
+					if(gX>590) gX = -30;
+					ghosts[i].style.left = gX + GHOST_SPEED + 'px';
+				}
+				else if(gNewDirection == 'left'){
+					if(gX < -30) gX = 590;
+					ghosts[i].style.left = gX - GHOST_SPEED + 'px';
+				}
+				else if(gNewDirection == 'down'){
+					if(gY > 390) gY = -30;
+					ghosts[i].style.top = gY + GHOST_SPEED + 'px';
+				}
+				else if(gNewDirection == 'up'){
+					if(gY < -30) gY = 390;
+					ghosts[i].style.top = gY - GHOST_SPEED + 'px';
+				}
+			
+			
+		}
+		else if(ghosts[i].id=='redGhost'){
+			var rgDirection = gDirections[i];
+			
+			
+			// Check right
+			if(rgDirection != 'left'){
+				redGhost.style.left = gX + GHOST_SPEED + 'px';
+				if( ! hitWall(redGhost) ){			
+					if(pacX > gX) goodChoices.push('right');
+					else badChoices.push('right');
+				}
+				redGhost.style.left = gX + 'px';
+			}
+			// Check left
+			if(pgDirection != 'right'){
+				redGhost.style.left = gX - GHOST_SPEED + 'px';
+				if( ! hitWall(redGhost) ){			
+					if(pacX < gX) goodChoices.push('left');
+					else badChoices.push('left');
+				}
+				redGhost.style.left = gX + 'px';
+			}
+			// Check up
+			if(pgDirection != 'down'){
+				redGhost.style.top = gY - GHOST_SPEED + 'px';
+				if( ! hitWall(redGhost) ){			
+					if(pacY < gY) goodChoices.push('up');
+					else badChoices.push('up');
+				}
+				redGhost.style.top = gY + 'px';
+			}
+			// Check down
+			if(pgDirection != 'up'){
+				redGhost.style.top = gY + GHOST_SPEED + 'px';
+				if( ! hitWall(redGhost) ){			
+					if(pacY > gY) goodChoices.push('down');
+					else badChoices.push('down');
+				}
+				redGhost.style.top = gY + 'px';
 			}
 			
 			if(goodChoices.length>0){
