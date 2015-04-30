@@ -9,9 +9,10 @@
 
 }
 
-#pacman{
-	position: absolute;
-}
+#pacman, #redGhost, #blueGhost, #pinkGhost, #greenGhost{
+				position: absolute;
+				z-index: 20;
+			}
 
 .rotate90{
 	transform:rotate(90deg);
