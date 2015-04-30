@@ -74,7 +74,13 @@ function init(){
 		gDirections[i] = '';
 	}
 
-	
+	createWall(0,0,40,200);
+	createWall(parseInt(gameWindowW- 40),0,40,200);
+	createWall(0,0,parseInt(gameWindowW),40);
+	createWall(0,160,280,40);
+	createWall(320,160,280,40);
+
+
 	// createWall(240, 200, 120, 40);
 	// createWall(240, 280, 120, 40);
 	// createWall(80, 160, 40, 160);
